@@ -48,7 +48,7 @@ def report(results, n_top=3):
             print("Mean validation score: {0:.3f} (std: {1:.3f})".format(
                 results['mean_test_score'][candidate],
                 results['std_test_score'][candidate]))
-            print("Parameters: {0}".format(results['params'][candidate]))
+            # print("Parameters: {0}".format(results['params'][candidate]))
             print("")
 
 
@@ -99,10 +99,11 @@ def do_regression(ticker, forecast):
                   "xgb_reg__n_estimators": randint(100, 150),  # default 100
                   "xgb_reg__subsample": uniform(0.6, 0.4)
                   }
-    print(clf.get_params().keys())
+    # print(clf.get_params().keys())
 
     random_search = RandomizedSearchCV(clf, param_distributions=param_dist,
-                                       n_iter=5, cv=10, n_jobs=-1, verbose=5)
+                                       n_iter=5, cv=10, n_jobs=-1, verbose=2)
+    print("Training of model is starting..")
     random_search.fit(X_train, y_train)
     report(random_search.cv_results_)
 
@@ -113,7 +114,7 @@ def do_regression(ticker, forecast):
     data = data[["Adj Close"]]
     data = data.rename(columns={"Adj Close": "EOD"})
     data["Forecast"] = forecast[:]
-    print("Predicted class counts:", Counter(forecast))
+    # print("Predicted class counts:", Counter(forecast))
     print()
     print()
 

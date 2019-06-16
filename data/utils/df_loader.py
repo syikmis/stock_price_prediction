@@ -5,10 +5,10 @@ import pandas as pd
 
 import data.utils.web_scrappers as ws
 
-DATA_DIR = Path("../data/data")
+DATA_DIR = Path("data/data")
 COM_DATA_DIR = DATA_DIR / "DAX30"
 PKL_DIR = DATA_DIR / "PKL_DIR"
-DAX_DATA_PKL = PKL_DIR / "DAX.data.pkl"
+DAX_DATA_PKL = PKL_DIR / "DAX30.data.pkl"
 DAX_DATA_CSV = DATA_DIR / "DAX30.csv"
 
 
@@ -85,7 +85,9 @@ def get_dax_as_pkl():
 
 def get_dax__as_df():
     if DAX_DATA_PKL.exists():
-        return pd.read_pickle()
+        path = path_to_string(DAX_DATA_PKL)
+
+        return pd.read_pickle(path)
     else:
         compute_dax_df()
 

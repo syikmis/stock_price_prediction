@@ -126,11 +126,10 @@ def get_reg_data(ticker, forecast):
     df = dl.get_com_as_df(ticker)
     forecast_out = int(forecast)  # predict int days into future
     df = add_new_features(df, forecast_out)
-    print(df.describe())
+    print("Description of data set: \n {}".format(df.describe()))
     X = np.array(df.drop(["label"], 1))
     scaler = sklearn.preprocessing.MinMaxScaler()
     X = scaler.fit_transform(X)
-    print("Shape of data after feature extraction".format(X.shape))
     X_data = X[-forecast_out:]
     X = X[:-forecast_out]
 
@@ -138,9 +137,9 @@ def get_reg_data(ticker, forecast):
     df = df[:-forecast_out]
     y = np.array(df["label"])
 
-    # Value distrib
-    vals = df["label"].values.tolist()
-    str_vals = [str(i) for i in vals]
-    print("Data spread:", Counter(str_vals))
+    # # Value distrib
+    # vals = df["label"].values.tolist()
+    # str_vals = [str(i) for i in vals]
+    # print("Data spread:", Counter(str_vals))
 
     return X, y, df, X_data, data

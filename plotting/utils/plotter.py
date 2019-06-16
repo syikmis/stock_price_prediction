@@ -1,16 +1,23 @@
+from pathlib import Path
+
 import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from matplotlib import style
 from mpl_finance import candlestick_ohlc
+from pandas.plotting import register_matplotlib_converters
 
 import data.utils.df_loader as dl
 
+register_matplotlib_converters()
+
 style.use("ggplot")
 
-CSV_DIR = "../data/DAX30/"
-PLOT_DIR = "/Users/SiyarYikmis/PycharmProjects/ml_stocks/plotting/plots/"
+DATA_DIR = Path("data/data")
+COM_DATA_DIR = DATA_DIR / "DAX30"
+
+PLOT_DIR = Path("plots")
 
 YEARS = mdates.YearLocator()  # every year
 MONTHS = mdates.MonthLocator()  # every month
@@ -18,6 +25,10 @@ DAYS = mdates.DayLocator()  # every day
 YEARS_FMT = mdates.DateFormatter("%Y")
 MONTHS_FMT = mdates.DateFormatter("%m")
 DAYS_FMT = mdates.DateFormatter("%d")
+
+
+def path_to_string(path):
+    return "/".join(path.parts)
 
 
 def set_as_index(df, value="Date"):
@@ -41,7 +52,7 @@ def plot_100avg(ticker):
     ax2 = plt.subplot2grid((8, 1), (5, 0), colspan=1, rowspan=3, sharex=ax1)
 
     ax1.plot(df.index, df["Adj Close"], label=ticker)
-    ax1.plot(df.index, df["100ma"], label="Moving AVG")
+    ax1.plot(df.index, df["100ma"], label="100d mvg avg")
     ax1.set_ylabel("Adj Close")
     ax1.set_title("{}".format(ticker[:-3]))
     ax1.xaxis.set_major_locator(YEARS)
@@ -56,7 +67,7 @@ def plot_100avg(ticker):
     ax2.set_xlabel("Date")
     ax2.axis("auto")
 
-    path = "{}{}_100avg.png".format(PLOT_DIR, ticker[:-3])
+    path = "{}/{}_100avg.png".format(path_to_string(PLOT_DIR), ticker[:-3])
     plt.savefig(path, dpi=300)
     ax1.legend()
     plt.show()
@@ -81,13 +92,17 @@ def plot_exp_return(ticker):
     ax1.format_ydata = lambda x: "$%1.2f" % x  # format the price.
     ax1.grid(True)
 
+    path = "{}/{}_exp_return.png".format(path_to_string(PLOT_DIR), ticker[:-3])
+    plt.savefig(path, dpi=300)
+
     fig1.autofmt_xdate()
     plt.show()
 
 
 def plot_ohlc(ticker):
-    df = pd.read_csv("{}{}.csv".format(CSV_DIR, ticker), parse_dates=True,
-                     index_col=0)
+    df = dl.get_com_as_df(ticker)
+    df = set_as_index(df)
+    df.index = pd.to_datetime(df.index)
     df_ohlc = df["Adj Close"].resample("10D").ohlc()
     df_volume = df["Volume"].resample("10D").sum()
     df_ohlc.reset_index(inplace=True)
@@ -99,7 +114,7 @@ def plot_ohlc(ticker):
     ax1.set_title("{}".format(ticker[:-3]))
     candlestick_ohlc(ax1, df_ohlc.values, width=2, colorup="g")
     ax2.fill_between(df_volume.index.map(mdates.date2num), df_volume.values, 0)
-    path = "{}{}_OHLC.png".format(PLOT_DIR, ticker[:-3])
+    path = "{}/{}_OHLC.png".format(path_to_string(PLOT_DIR), ticker[:-3])
     plt.savefig(path, dpi=300)
     plt.show()
 
@@ -130,7 +145,8 @@ def plot_dax():
     plt.xticks(rotation=90)
     heatmap1.set_clim(-1, 1)
     plt.tight_layout()
-    plt.savefig("{}correlations.png".format(PLOT_DIR), dpi=300)
+    path = "{}/DAX30_cor.png".format(path_to_string(PLOT_DIR))
+    plt.savefig(path, dpi=300)
     plt.show()
 
 
@@ -150,4 +166,6 @@ def plot_forecast(df, ticker):
     ax1.format_ydata = lambda x: "$%1.2f" % x  # format the price.
     ax1.grid(True)
     fig.autofmt_xdate()
+    path = "{}/{}_forecast.png".format(path_to_string(PLOT_DIR), ticker[:-3])
+    plt.savefig(path, dpi=300)
     fig.show()
