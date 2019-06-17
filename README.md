@@ -26,7 +26,7 @@ Install packages:
 `~$ pip install -r /path/to/requirements.txt`
 
 
-Start program:
+Start program from shell:
 
 `~$ python3 -m main.src`
 
