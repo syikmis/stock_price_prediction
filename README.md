@@ -1,6 +1,11 @@
 # stock_price_prediction
 Stock price prediction based on machine learning
 
+Projects code based on sentdex Tutorial https://pythonprogramming.net/getting-stock-prices-python-programming-for-finance/
+
+Checkout his website!
+I am grateful for all your critics, comments and improvement suggestions!
+
 PREREQUISITES:
  - pip
   - python
