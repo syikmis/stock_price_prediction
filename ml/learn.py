@@ -102,7 +102,7 @@ def do_regression(ticker, forecast):
     # print(clf.get_params().keys())
 
     random_search = RandomizedSearchCV(clf, param_distributions=param_dist,
-                                       n_iter=5, cv=10, n_jobs=-1, verbose=2)
+                                       n_iter=5, cv=10, n_jobs=-1, verbose=1)
     print("Training of model is starting..")
     random_search.fit(X_train, y_train)
     report(random_search.cv_results_)

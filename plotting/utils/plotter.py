@@ -14,10 +14,10 @@ register_matplotlib_converters()
 
 style.use("ggplot")
 
-DATA_DIR = Path("data/data")
+DATA_DIR = Path("../data/data")
 COM_DATA_DIR = DATA_DIR / "DAX30"
 
-PLOT_DIR = Path("plots")
+PLOT_DIR = Path("../plots")
 
 YEARS = mdates.YearLocator()  # every year
 MONTHS = mdates.MonthLocator()  # every month
