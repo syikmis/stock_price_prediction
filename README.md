@@ -19,6 +19,7 @@ Clone repository:
 Setup virtual environment virtual env:
 
 `~$ virtualenv -p python3 venv`
+
 `~$ source venv/bin/activate`
 
 
@@ -30,6 +31,7 @@ Install packages:
 Start program from shell:
 
 `~$ cd stock_price_prediction`
+
 `~$ python3 -m src.main`
 
 
