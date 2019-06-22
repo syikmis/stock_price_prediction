@@ -52,8 +52,8 @@ def report(results, n_top=3):
             print("")
 
 
-def do_regression(ticker, forecast):
-    print("STOCK DATA PREDICTION COM: {}".format(ticker))
+def do_regression(ticker, name, forecast):
+    print("STOCK DATA PREDICTION COM: {}".format(name))
     X, y, df, X_data, data = get_reg_data(ticker, forecast)
     regr_1 = make_pipeline(PolynomialFeatures(3), Ridge())
     regr_2 = neighbors.KNeighborsRegressor(n_neighbors=2, weights="distance")
@@ -121,7 +121,7 @@ def do_regression(ticker, forecast):
     df["Forecast"] = np.nan
     # df = save_forecast(df, forecast)
 
-    plt.plot_forecast(data, ticker)
+    plt.plot_forecast(data, ticker, name)
 
 
 def save_forecast(df, forecast):

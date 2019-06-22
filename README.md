@@ -31,4 +31,3 @@ Start program from shell:
 `~$ python3 -m main.src`
 
 
-

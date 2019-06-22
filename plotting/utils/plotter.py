@@ -37,7 +37,7 @@ def set_as_index(df, value="Date"):
     return df
 
 
-def plot_100avg(ticker):
+def plot_100avg(ticker, name):
     df = dl.get_com_as_df(ticker)
     df.index = pd.to_datetime(df.index)
     df["100ma"] = df["Adj Close"].rolling(window=100, min_periods=0).mean()
@@ -54,7 +54,7 @@ def plot_100avg(ticker):
     ax1.plot(df.index, df["Adj Close"], label=ticker)
     ax1.plot(df.index, df["100ma"], label="100d mvg avg")
     ax1.set_ylabel("Adj Close")
-    ax1.set_title("{}".format(ticker[:-3]))
+    ax1.set_title("{}".format(name))
     ax1.xaxis.set_major_locator(YEARS)
     ax1.xaxis.set_major_formatter(YEARS_FMT)
     ax1.xaxis.set_minor_locator(MONTHS)
@@ -73,7 +73,7 @@ def plot_100avg(ticker):
     plt.show()
 
 
-def plot_exp_return(ticker):
+def plot_exp_return(ticker, name):
     df = dl.get_com_as_df(ticker)
     df.index = pd.to_datetime(df.index)
     returns = (df["Adj Close"] / df["Adj Close"].shift(1)) - 1
@@ -84,7 +84,7 @@ def plot_exp_return(ticker):
     ax1.xaxis.set_minor_locator(MONTHS)
 
     ax1.set_ylabel("Expected return")
-    ax1.set_title("{}".format(ticker[:-3]))
+    ax1.set_title("{}".format(name))
     ax1.legend()
 
     # format the coords message box
@@ -99,7 +99,7 @@ def plot_exp_return(ticker):
     plt.show()
 
 
-def plot_ohlc(ticker):
+def plot_ohlc(ticker, name):
     df = dl.get_com_as_df(ticker)
     df = set_as_index(df)
     df.index = pd.to_datetime(df.index)
@@ -111,7 +111,7 @@ def plot_ohlc(ticker):
     ax1 = plt.subplot2grid((6, 1), (0, 0), rowspan=5, colspan=1)
     ax2 = plt.subplot2grid((6, 1), (5, 0), rowspan=1, colspan=1, sharex=ax1)
     ax1.xaxis_date()
-    ax1.set_title("{}".format(ticker[:-3]))
+    ax1.set_title("{}".format(name))
     candlestick_ohlc(ax1, df_ohlc.values, width=2, colorup="g")
     ax2.fill_between(df_volume.index.map(mdates.date2num), df_volume.values, 0)
     path = "{}/{}_OHLC.png".format(path_to_string(PLOT_DIR), ticker[:-3])
@@ -150,7 +150,7 @@ def plot_dax():
     plt.show()
 
 
-def plot_forecast(df, ticker):
+def plot_forecast(df, ticker, name):
     fig, ax1 = plt.subplots()
     dates = pd.to_datetime(df.index)
     ax1.plot(dates, df["EOD"], label="Adj Close")
@@ -158,7 +158,7 @@ def plot_forecast(df, ticker):
     ax1.legend(loc=4)
     ax1.set_xlabel("Date")
     ax1.set_ylabel("Price")
-    ax1.set_title("{}".format(ticker[:-3]))
+    ax1.set_title("{}".format(name))
     ax1.xaxis.set_major_locator(mdates.WeekdayLocator())
     ax1.xaxis.set_major_formatter(mdates.DateFormatter("%d.%m"))
     ax1.xaxis.set_minor_locator(DAYS)

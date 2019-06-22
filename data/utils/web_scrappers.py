@@ -98,3 +98,11 @@ def save_names(names):
     with open(path_to_string(COM_NAMES_PKL), "wb") as f:
         pickle.dump(names, f)
         print("Saved DAX 30 company names")
+
+
+def ticker_to_name(ticker):
+    names = list(get_names())
+    tickers = list(get_tickers())
+    index = tickers.index(ticker)
+    name = names.pop(index)
+    return name
