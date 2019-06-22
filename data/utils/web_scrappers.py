@@ -9,7 +9,7 @@ import requests
 
 import data.utils.df_loader as dl
 
-DATA_DIR = Path("../data/data")
+DATA_DIR = Path("data/data")
 COM_DATA_DIR = DATA_DIR / "DAX30"
 PKL_DIR = DATA_DIR / "PKL_DIR"
 COM_NAMES_PKL = PKL_DIR / "DAX30.names.pkl"
