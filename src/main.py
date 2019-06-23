@@ -7,7 +7,7 @@ from plotting.utils import plotter as plt
 def main():
     opening = "Hello and welcome to JIYANs \"Stock Analysis\"\n"
 
-    print(opening)
+    print("{:*^30}".format(opening))
 
     mes = "There are two possibilites to use this programm:\n " \
           "    - Perform regression on a dax company (1)\n     - Perform analyse over all DAX30 (2)\n"
@@ -27,7 +27,7 @@ def main():
         tickers = list(get_tickers())
         names = list(get_names())
 
-        fmt = '{:<8}{:<20}{}'
+        fmt = '{:<8}{:<10}{}'
         print("˜\n")
         print(fmt.format('', 'TICKER', 'COMPANY'))
         for i, (ticker, name) in enumerate(zip(tickers, names)):
